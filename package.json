@@ -9,11 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@anciitk/kratos-verify-session": "2.0.0",
-    "@anciitk/xenon-js": "^2.0.4",
+    "@anciitk/kratos-verify-session": "^2.0.0",
+    "@anciitk/xenon-js": "^2.0.3",
     "@ant-design/icons": "^4.7.0",
+    "@ory/cli": "0.0.66",
+    "@ory/kratos-client": "0.7.6-alpha.6",
+    "@ory/themes": "0.0.100",
+    "@zeit/next-sass": "^1.0.1",
     "antd": "^4.23.5",
-    "axios": "^0.27.2",
+    "axios": "^0.21.1",
     "express": "^4.18.2",
     "mongodb": "^4.12.1",
     "mongoose": "^6.7.5",

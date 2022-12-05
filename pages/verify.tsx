@@ -21,16 +21,14 @@ export default function Component() {
   return (
     <div>
       <Redirect
-        loginUrl={`https://accounts.anciitk.in/login`}
+        loginUrl={`${process.env.NEXT_PUBLIC_LOGIN_URL}`}
         historyPush={router.push}
         sessionState={session}
         setSessionState={setSession}
-        basePath={`http://localhost:3000`}
-        // path={(next as string) || "dashboard"}
+        basePath={`${process.env.NEXT_PUBLIC_BASE_URL}`}
         path="/"
         ory={ory}
-        xenon={xenon}
-      />
+        xenon={xenon} roles={[]}      />
       <script>
         consol.log("hsvdhjzvc");
         console.log(loginUrl);
