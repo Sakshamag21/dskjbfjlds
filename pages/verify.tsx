@@ -16,6 +16,7 @@ export default function Component() {
   console.log("yes22")
     const router = useRouter();
     const [session, setSession] = useRecoilState(recoilSessionState);
+    console.log(session?.user.id)
     const { next: next } = router.query;
     console.log(router.push)
   return (
@@ -30,12 +31,7 @@ export default function Component() {
         ory={ory}
         xenon={xenon} roles={[]}      />
       <script>
-        consol.log("hsvdhjzvc");
-        console.log(loginUrl);
-        console.log(sessionState);
-        console.log(basePath);
-        console.log(path);
-        console.log(historyPush);
+        {}
         {/* console.log(loginUrl); */}
       </script>
     </div>

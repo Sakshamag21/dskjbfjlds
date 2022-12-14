@@ -16,8 +16,9 @@ import "@anciitk/kratos-verify-session/dist/index.css";
 import { useRouter } from "next/router";
 import { xenon } from "../pkg/xenon";
 import { useContext } from 'react';
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { recoilSessionState } from "../pkg/recoilDeclarations";
+
 import { allSemsData, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data } from '../components/recoilDeclarations';
 // import { useRouter } from 'next/router'
 // import { NextResponse } from 'next/server'
@@ -33,8 +34,50 @@ const Home: NextPage = () => {
   //       const [session, setSession] = useRecoilState(recoilSessionState);
   //       const { next: next } = router.query;
 
+  // console.log("hzcghz");
+  const sessiondata=useRecoilValue(recoilSessionState);
+  
+  console.log(sessiondata?.user.id);
+  // console.log("ndsvhdhvvvvvv");
+  // console.log(session)
+  const dummyData=[[{key: 0, course: 'MTH101A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 1, course: 'PHY101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 2, course: 'PHY102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 3, course: 'LIF101A', grade: 'C', credits: 6, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 4, course: 'ENG124A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 5, course: 'TA101A', grade: 'C', credits: 9, credits_received: 6.6,is_repeated:false,is_sx:false}],
+                    [{key: 6, course: 'MTH102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 7, course: 'PHY103A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 8, course: 'ESC101A', grade: 'C', credits: 14, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 9, course: 'CHM102A', grade: 'C', credits: 8, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 10, course: 'CHM101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false}]];
+  const addinpdata = async (e:any) => {
+    // e.preventDefault();
+
+    
+  
+    const { name, email, work, add, mobile, desc, age } = {name:"saksham",email:"bsvc@gmail.com",
+           work:"xnbc",add:"sf",mobile:845678923,desc:"yjsd",age:12};
+        console.log(name,email)
+
+        const res = await fetch("http://localhost:8003/register1", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name, email, work, add, mobile, desc, age,dummyData
+            })
+        });
+
+        const data = await res.json();
+        console.log(data);
 
 
+    // }
+}
+        
+  
   const handleClick1 = () => {
     const element1 = document.getElementById("spi-cpi");
     element1?.scrollIntoView({behavior: 'smooth'});
@@ -50,13 +93,17 @@ const Home: NextPage = () => {
     const element2 = document.getElementById("acad-status");
     element2?.scrollIntoView({behavior: 'smooth'});
   };
+  // console.log(Sem1Data,"sem1data");
 
   const [semData, setSemData] = useRecoilState(allSemsData)
+  if (dummyData){
+    // semData=dummyData
+  }
   // const [trial, setTrial] = useState<DataType[][]>()
     const [status, setStatus] = useState("Normal");
     const [showStat, setShowStat] = useState(false)
-    const [sem1a, ] = useRecoilState(Sem1Data);
-    const [sem2a, ] = useRecoilState(Sem2Data)
+    let [sem1a, ] = useRecoilState(Sem1Data);
+    let [sem2a, ] = useRecoilState(Sem2Data)
     const [sem3a, ] = useRecoilState(Sem3Data)
     const [sem4a, ] = useRecoilState(Sem4Data)
     const [sem5a, ] = useRecoilState(Sem5Data)
@@ -71,10 +118,28 @@ const Home: NextPage = () => {
     const [sem14a, ] = useRecoilState(Sem14Data)
     const [sem15a, ] = useRecoilState(Sem15Data)
     const [sem16a, ] = useRecoilState(Sem16Data)
+    const semArray=[sem1a,sem2a,sem3a,sem4a,sem5a,sem6a,sem7a,sem8a,sem9a,sem10a,sem11a,sem12a,sem13a,sem14a,sem15a,sem16a,];
+    // if (dummyData){
+    //   console.log(dummyData.length);
+    //   for (let c=dummyData.length;c>0;c--){
+    //     console.log("updated ",c-1);
+    //     if (c-1==1){
+    //       sem2a=dummyData[c-1];
+    //       tempFunc();
+    //     }
+    //     if(c-1==0){
+    //       sem1a=dummyData[c-1];
+    //     }
+    //     // semArray[c-1]=dummyData[c-1];
+    //     console.log(sem1a)
+    //   }
+    // }
     const tempFunc = () => {
       setSemData([]);
       let semDataAll = semData
+      
       semDataAll = []
+      
       // console.log(sem1a)
       if(sem1a.length !== 0) {semDataAll = [sem1a];}
       if(sem2a.length !== 0) {semDataAll?.push(sem2a)}
@@ -94,6 +159,24 @@ const Home: NextPage = () => {
       if(sem16a.length !== 0) {semDataAll?.push(sem16a)}
       setSemData(semDataAll)
   }
+  // if (dummyData){
+  //   // console.log(dummyData.length);
+  //   for (let c=dummyData.length;c>0;c--){
+  //     // console.log("updated ",c-1);
+  //     if(c-1==0){
+  //       sem1a=dummyData[c-1];
+      
+  //     }
+  //     if (c-1==1){
+  //       sem2a=dummyData[c-1];
+      
+  //     }
+      
+  //     // semArray[c-1]=dummyData[c-1];
+  //     // console.log(sem1a)
+  //   }
+    
+  // }
 
     const getStats = (semData:DataType[][]) => {  
       
@@ -117,6 +200,7 @@ const Home: NextPage = () => {
       if(sem15a.length !== 0) {semDataAll?.push(sem15a)}
       if(sem16a.length !== 0) {semDataAll?.push(sem16a)}
       setSemData(semDataAll)
+      // console.log(semData,sem1a);
 
 
         let numSems = 0;
@@ -168,6 +252,8 @@ const Home: NextPage = () => {
         setShowStat(true)
             
     }
+    
+    // console.log(semData,sem1a);
 
     const [results, setResults] = useState<SPIstruct[]>([])
     const [cpi, setCpi] = useState(0)
@@ -409,6 +495,9 @@ const columns: ColumnsType<SPIstruct> = [
         </Content>
       }
     </div>
+    {/* <div style={{display:'flex',justifyContent:'center', alignItems:'center', paddingBottom:"50px"}}>
+        <Button  style={{width:"150px"}} onClick={addinpdata}> Save </Button>
+        </div> */}
     
     <Footer style={{ textAlign: 'center', position:'fixed', bottom:"0px", left:"0px", right:"0px" }}>AnC web team ©2022 </Footer>
   </Layout>

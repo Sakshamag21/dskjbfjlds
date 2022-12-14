@@ -5,12 +5,63 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import 'antd/dist/antd.css';
 import DataType from './datatype';
 import { allSemsData, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data, semCount } from './recoilDeclarations';
-import { useRecoilState } from "recoil";
+
 import getCreditsReceived from './getCreditsReceived';
 import { options } from './courseOptions';
 import { jsonOfCourseCredits } from './courseCredits';
-
+import { useRecoilState, useRecoilValue } from "recoil";
+import { recoilSessionState } from "../pkg/recoilDeclarations";
+let dummyData=[[{key: 0, course: 'MTH101A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 1, course: 'PHY101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 2, course: 'PHY102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 3, course: 'LIF101A', grade: 'C', credits: 6, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 4, course: 'ENG124A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 5, course: 'TA101A', grade: 'C', credits: 9, credits_received: 6.6,is_repeated:false,is_sx:false}],
+                    [{key: 6, course: 'MTH102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 7, course: 'PHY103A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 8, course: 'ESC101A', grade: 'C', credits: 14, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 9, course: 'CHM102A', grade: 'C', credits: 8, credits_received: 6.6,is_repeated:false,is_sx:false},
+                    {key: 10, course: 'CHM101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false}]];
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
+const sessiondata=useRecoilValue(recoilSessionState);
+let setVar=1;
+let userDataExist=0;
+  
+console.log(sessiondata?.user.id);
+const userId= sessiondata?.user.id;
+const getdata = async () => {
+
+  const res = await fetch(`http://localhost:8003/getuser/${userId}`, {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json"
+      }
+  });
+
+  const data = await res.json();
+  console.log(data);
+  if (data){
+    dummyData=data.gradesData;
+    userDataExist=1;
+  }
+  
+
+
+  if (res.status === 422) {
+      console.log("error ");
+
+  } else {
+          
+      console.log("get data");
+
+  }
+}
+
+if (userId && setVar){
+  getdata();
+  setVar=0;
+}
+
 
 const optionsGrade:any = [
   {value: 'A*'}, 
@@ -198,9 +249,12 @@ type EditableTableProps = Parameters<typeof Table>[0];
   };
 
 type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
-
+let ver=0;
 export const App: React.FC = () => {
+  const [count, setCount] = useRecoilState(semCount);
+  // setCount(dummyData.length);
   const [semData, setSemData] = useRecoilState(allSemsData)
+  console.log(semData);
   const [sem1, setSem1] = useRecoilState(Sem1Data)
   const [sem2, setSem2] = useRecoilState(Sem2Data)
   const [sem3, setSem3] = useRecoilState(Sem3Data)
@@ -217,9 +271,80 @@ export const App: React.FC = () => {
   const [sem14, setSem14] = useRecoilState(Sem14Data)
   const [sem15, setSem15] = useRecoilState(Sem15Data)
   const [sem16, setSem16] = useRecoilState(Sem16Data)
+  
 
-  const [count, setCount] = useRecoilState(semCount);
+  // const [count, setCount] = useRecoilState(semCount);
   const [count2, setCount2] = useState(0);
+  if (count<dummyData.length){
+    setCount(dummyData.length);
+  }
+  else{
+    
+  }
+
+  // setCount(dummyData.length);
+  // setSem1(dummyData[0]);
+  const semArray=[setSem1,setSem2];
+  console.log("ver",ver);
+  
+  if (ver==0){
+    console.log("inside");
+  for (let y=0;y<dummyData.length;y++){
+    semArray[y](dummyData[y]);
+  }
+  ver=1;}
+  console.log(count);
+  console.log(sem1);
+  const updateData = async(e:any)=>{
+    // e.preventDefault();
+    const gradesData=semData;
+    console.log(gradesData,"gradesData",typeof(gradesData))
+
+    
+
+    const res2 = await fetch(`http://localhost:8003/updateuser/${userId}`,{
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify({
+          userId,gradesData
+        })
+    });
+
+    const data2 = await res2.json();
+    console.log(data2);
+
+    
+
+}
+  const addinpdata = async (e:any) => {
+    // e.preventDefault();
+
+    
+    // console.log("semdata",semData);
+    const gradesData=semData;
+    console.log(gradesData,"gradesData",typeof(gradesData))
+    const { name, email, work, add, mobile, desc, age } = {name:"saksham",email:"bsvc@gmail.com",
+           work:"xnbc",add:"sf",mobile:845678923,desc:"yjsd",age:12};
+        console.log(name,email)
+
+        const res = await fetch("http://localhost:8003/register1", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userId,gradesData
+            })
+        });
+
+        const data = await res.json();
+        console.log(data);
+
+
+    // }
+}
 
   const addAllData = () => {
     setSemData([]);
@@ -779,11 +904,12 @@ export const App: React.FC = () => {
       />
       </div>
         }
+        {/* </div> */}
       
       <div style={{display:'flex',justifyContent:'center', alignItems:'center', padding:"10px"}}>
       <Button  style={{width:"150px"}} onClick={() => setCount(count+1)}> Add Sem </Button>
         </div>
-        <div style={{display:'flex',justifyContent:'center', alignItems:'center', paddingBottom: 50}}>
+        <div style={{display:'flex',justifyContent:'center', alignItems:'center', padding:"10px"}}>
       <Button style={{width:"150px"}} onClick={() => {
        if(count > 0) {setCount(count-1)}
        if(count === 1) {setSem1([]);}
@@ -804,11 +930,22 @@ export const App: React.FC = () => {
        if(count === 16) {setSem16([]);}
         }}> Delete last Sem </Button>
         </div>
-        <div style={{display:'flex',justifyContent:'center', alignItems:'center', padding:"10px"}}>
-        {/* <Button  style={{width:"150px"}} onClick={() => addAllData()}> Save </Button> */}
+        
+        <div style={{display:'flex',justifyContent:'center', alignItems:'center', paddingBottom:"50px"}}>
+        <Button  style={{width:"150px"}} onClick={()=>{
+          addAllData;
+          if (userDataExist){
+            updateData;
+          }else{
+            addinpdata;
+          }
+        }}> Save </Button>
         </div>
         </div>
+        
+        
     </div>
+    
   );
 };
 
