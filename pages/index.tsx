@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { xenon } from "../pkg/xenon";
 import { useContext } from 'react';
 import { useRecoilState, useRecoilValue } from "recoil";
+import { Avatar, Image } from 'antd';
 import { recoilSessionState } from "../pkg/recoilDeclarations";
 
 import { allSemsData, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data } from '../components/recoilDeclarations';
@@ -38,6 +39,7 @@ const Home: NextPage = () => {
   const sessiondata=useRecoilValue(recoilSessionState);
   
   console.log(sessiondata?.user.id);
+
   // console.log("ndsvhdhvvvvvv");
   // console.log(session)
   const dummyData=[[{key: 0, course: 'MTH101A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
@@ -89,6 +91,7 @@ const Home: NextPage = () => {
         return(<Component/>)
     
   }
+  const userImage=`https://images-students-iitk.sgp1.digitaloceanspaces.com/images-students-iitk/${sessiondata?.user.rollno}.jpg`
   const handleClick2 = () => {
     const element2 = document.getElementById("acad-status");
     element2?.scrollIntoView({behavior: 'smooth'});
@@ -374,7 +377,13 @@ const columns: ColumnsType<SPIstruct> = [
       ]}
       />
       <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}} href='./y22'>For Y22</Button>
-      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}}  href='./verify'>Login</Button>
+      <div>{(sessiondata?.user.id) &&
+      <Avatar src={<Image src={userImage} style={{ width: 32 }} />} />}
+      {(!sessiondata?.user.id) &&
+      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}}  href='./verify'>Login</Button>}
+      
+      </div>
+      {/* <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}}  href='./verify'>Login</Button> */}
       
     </Header>
     <div>
