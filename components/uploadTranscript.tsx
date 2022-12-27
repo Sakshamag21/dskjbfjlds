@@ -23,44 +23,12 @@ let dummyData=[[{key: 0, course: 'MTH101A', grade: 'C', credits: 11, credits_rec
                     {key: 9, course: 'CHM102A', grade: 'C', credits: 8, credits_received: 6.6,is_repeated:false,is_sx:false},
                     {key: 10, course: 'CHM101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false}]];
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
-const sessiondata=useRecoilValue(recoilSessionState);
+// const [sessiondata, _]=useRecoilState(recoilSessionState);
 let setVar=1;
 let userDataExist=0;
   
-console.log(sessiondata?.user.id);
-const userId= sessiondata?.user.id;
-const getdata = async () => {
-
-  const res = await fetch(`http://localhost:8003/getuser/${userId}`, {
-      method: "GET",
-      headers: {
-          "Content-Type": "application/json"
-      }
-  });
-
-  const data = await res.json();
-  console.log(data);
-  if (data){
-    dummyData=data.gradesData;
-    userDataExist=1;
-  }
-  
 
 
-  if (res.status === 422) {
-      console.log("error ");
-
-  } else {
-          
-      console.log("get data");
-
-  }
-}
-
-if (userId && setVar){
-  getdata();
-  setVar=0;
-}
 
 
 const optionsGrade:any = [
@@ -271,44 +239,140 @@ export const App: React.FC = () => {
   const [sem14, setSem14] = useRecoilState(Sem14Data)
   const [sem15, setSem15] = useRecoilState(Sem15Data)
   const [sem16, setSem16] = useRecoilState(Sem16Data)
-  
-
+  var datagrades  
+  const [sessiondata, _]=useRecoilState(recoilSessionState);
+  console.log(sessiondata?.user.id,"user.id");
+  console.log(sessiondata?.user.email,"user.email");
+let userId="45645464676gchghc";
+if (sessiondata?.user.id){
+  userId=sessiondata?.user.id
+}
   // const [count, setCount] = useRecoilState(semCount);
-  const [count2, setCount2] = useState(0);
-  if (count<dummyData.length){
-    setCount(dummyData.length);
-  }
-  else{
+  const getdata = async () => {
+    let email="";
+    if (sessiondata?.user.email){
+      email=sessiondata?.user.email
+    }
+    const res = await fetch(`http://localhost:8003/getuser/${email}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+  
+    const data = await res.json();
+    console.log(data,"getdata");
+    if (data){
+
+       datagrades=data.gradesData;
+      dummyData=data.gradesData;
+      if (count<datagrades.length){
+        setCount(datagrades.length);
+      }
+      else{
+        
+      }
+      if (ver==0){
+        console.log("inside");
+      for (let y=0;y<dummyData.length;y++){
+        semArray[y](datagrades[y]);
+      }
+      ver=1;}
+      userDataExist=1;
+      console.log(dummyData,data.gradesData,"gradesdatatea")
+    }
     
+  
+  
+    if (res.status === 422) {
+        console.log("error ");
+  
+    } else {
+            
+        console.log("get data");
+  
+    }
   }
+  const [count2, setCount2] = useState(0);
+  console.log(dummyData,"dummy teat")
+  // if (count<dummyData.length){
+  //   setCount(dummyData.length);
+  // }
+  // else{
+    
+  // }
 
   // setCount(dummyData.length);
   // setSem1(dummyData[0]);
   const semArray=[setSem1,setSem2];
   console.log("ver",ver);
   
-  if (ver==0){
-    console.log("inside");
-  for (let y=0;y<dummyData.length;y++){
-    semArray[y](dummyData[y]);
-  }
-  ver=1;}
+  // if (ver==0){
+  //   console.log("inside");
+  // for (let y=0;y<dummyData.length;y++){
+  //   semArray[y](datagrades[y]);
+  // }
+  // ver=1;}
   console.log(count);
   console.log(sem1);
-  const updateData = async(e:any)=>{
+
+const addinpdata = async () => {
+  // e.preventDefault();
+
+  console.log("yes3")
+  console.log("semdata",semData);
+  const gradesData=semData;
+  let email="";
+    if (sessiondata?.user.email){
+      email=sessiondata?.user.email
+    }
+
+  console.log(gradesData,"gradesData",typeof(gradesData))
+  // const { name, email, work, add, mobile, desc, age } = {name:"saksham",email:"sakshamag2@gmail.com",
+        //  work:"xnbc",add:"sf",mobile:845678923,desc:"yjsd",age:12};
+      // console.log(name,email)
+      console.log(gradesData,"tryyyyy")
+
+      const res = await fetch("http://localhost:8003/register1", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            userId,gradesData,email
+          })
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+
+  // }
+}
+
+
+if (userId && setVar){
+  getdata();
+  setVar=0;
+}
+  const updateData = async()=>{
     // e.preventDefault();
+    console.log(semData,"update")
     const gradesData=semData;
     console.log(gradesData,"gradesData",typeof(gradesData))
-
+    let email="";
+    if (sessiondata?.user.email){
+      email=sessiondata?.user.email
+    }
     
 
-    const res2 = await fetch(`http://localhost:8003/updateuser/${userId}`,{
+    const res2 = await fetch(`http://localhost:8003/updateuser/${email}`,{
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
         },
         body:JSON.stringify({
-          userId,gradesData
+          userId,gradesData,email
         })
     });
 
@@ -318,33 +382,7 @@ export const App: React.FC = () => {
     
 
 }
-  const addinpdata = async (e:any) => {
-    // e.preventDefault();
-
-    
-    // console.log("semdata",semData);
-    const gradesData=semData;
-    console.log(gradesData,"gradesData",typeof(gradesData))
-    const { name, email, work, add, mobile, desc, age } = {name:"saksham",email:"bsvc@gmail.com",
-           work:"xnbc",add:"sf",mobile:845678923,desc:"yjsd",age:12};
-        console.log(name,email)
-
-        const res = await fetch("http://localhost:8003/register1", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                userId,gradesData
-            })
-        });
-
-        const data = await res.json();
-        console.log(data);
-
-
-    // }
-}
+ 
 
   const addAllData = () => {
     setSemData([]);
@@ -525,6 +563,7 @@ export const App: React.FC = () => {
     setSem(newData);
     addAllData()
   };
+ 
   const columns = (sem:DataType[], setSem:any, sem_num:number) => defaultColumns(sem, setSem, sem_num).map(col => {
     if (!col.editable) {
       return col;
@@ -601,6 +640,7 @@ export const App: React.FC = () => {
     
   
   return (
+
     <div >
 
 
@@ -934,10 +974,13 @@ export const App: React.FC = () => {
         <div style={{display:'flex',justifyContent:'center', alignItems:'center', paddingBottom:"50px"}}>
         <Button  style={{width:"150px"}} onClick={()=>{
           addAllData;
+          
           if (userDataExist){
-            updateData;
+            updateData();
+            console.log("yes2")
           }else{
-            addinpdata;
+            addinpdata();
+            console.log("yes1")
           }
         }}> Save </Button>
         </div>

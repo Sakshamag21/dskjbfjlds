@@ -12,7 +12,7 @@ router.get("/",(req,res)=>{
 
 router.post("/register1",async(req,res)=>{
     // console.log(req.body);
-    const {userId,gradesData} = req.body;
+    const {userId,gradesData,email} = req.body;
     
 
     if(!userId || !gradesData ){
@@ -27,9 +27,10 @@ router.post("/register1",async(req,res)=>{
         if(0){
             res.status(422).json("this is user is already present");
         }else{
-
+            console.log(userId,gradesData,email)
             const adduser = new users({
-                userId,gradesData
+                userId,gradesData,email
+                // name, email, work, add, mobile, desc, age
             });
 
             await adduser.save();
@@ -57,12 +58,14 @@ router.post("/register1",async(req,res)=>{
 
 // // get individual user
 
-router.get("/getuser/:userid",async(req,res)=>{
+router.get("/getuser/:email",async(req,res)=>{
     try {
         console.log(req.params);
-        const {userid} = req.params;
+        const {email} = req.params;
+        console.log(email,"email textx");
+        // const preuser = await users.findOne({email:email})
 
-        const userindividual = await users.findOne({"userId":{$gte:userid}});
+        const userindividual = await users.findOne({email:email});
         console.log(userindividual);
         res.status(201).json(userindividual)
 
@@ -74,11 +77,12 @@ router.get("/getuser/:userid",async(req,res)=>{
 
 // // update user data
 
-router.patch("/updateuser/:userid",async(req,res)=>{
+router.patch("/updateuser/:email",async(req,res)=>{
     try {
-        const {userid} = req.params;
+        const {email} = req.params;
+        console.log(email,"update")
 
-        const updateduser = await users.findOneAndUpdate({"userId":{$gte:userid}},{$set:req.body})
+        const updateduser = await users.findOneAndUpdate({email:email},{$set:req.body})
 
         console.log(updateduser);
         res.status(201).json(updateduser);
