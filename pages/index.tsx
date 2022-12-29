@@ -16,6 +16,8 @@ import "@anciitk/kratos-verify-session/dist/index.css";
 import { useRouter } from "next/router";
 import { xenon } from "../pkg/xenon";
 import { useContext } from 'react';
+import { DownOutlined } from '@ant-design/icons';
+import { Dropdown, Space } from 'antd';
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Avatar, Image } from 'antd';
 import { recoilSessionState } from "../pkg/recoilDeclarations";
@@ -29,7 +31,24 @@ import {
   redirect as DomRedirect,
   BrowserRouter,
 } from "react-router-dom";
-
+const items = [
+  {
+    label: (
+      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+        1st menu item
+      </a>
+    ),
+    key: '0',
+  },
+  {
+    label: (
+      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+        2nd menu item
+      </a>
+    ),
+    key: '1',
+  },
+]
 const Home: NextPage = () => {
   // const router = useRouter();
   //       const [session, setSession] = useRecoilState(recoilSessionState);
@@ -378,9 +397,14 @@ const columns: ColumnsType<SPIstruct> = [
       />
       <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}} href='./y22'>For Y22</Button>
       <div>{(sessiondata?.user.id) &&
-      <Avatar src={<Image src={userImage} style={{ width: 32 }} />} />}
+      
+      <Dropdown menu={{ items,}}> <a onClick={(e) => e.preventDefault()}> <Space>
+        <Avatar src={<Image src={userImage} style={{ width: 32 }} />} />
+        <DownOutlined /></Space>
+    </a>
+  </Dropdown>}
       {(!sessiondata?.user.id) &&
-      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}}  href='./verify'>Login</Button>}
+      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px",position:"fixed",right:"30px"}}  href='./verify'>Login</Button>}
       
       </div>
       {/* <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}}  href='./verify'>Login</Button> */}

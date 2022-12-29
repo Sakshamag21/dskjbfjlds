@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import 'antd/dist/antd.css';
 import DataType from './datatype';
 import { allSemsData, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data, semCount } from './recoilDeclarations';
-
+import { useParams } from 'react-router';
 import getCreditsReceived from './getCreditsReceived';
 import { options } from './courseOptions';
 import { jsonOfCourseCredits } from './courseCredits';
@@ -253,7 +253,8 @@ if (sessiondata?.user.id){
     if (sessiondata?.user.email){
       email=sessiondata?.user.email
     }
-    const res = await fetch(`http://localhost:8003/getuser/${email}`, {
+    
+    const res = await fetch(`http://localhost:8080/getuser/${email}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -264,8 +265,9 @@ if (sessiondata?.user.id){
     console.log(data,"getdata");
     if (data){
 
-       datagrades=data.gradesData;
+       datagrades=data.data.gradesData;
       dummyData=data.gradesData;
+      console.log(datagrades)
       if (count<datagrades.length){
         setCount(datagrades.length);
       }
@@ -274,7 +276,8 @@ if (sessiondata?.user.id){
       }
       if (ver==0){
         console.log("inside");
-      for (let y=0;y<dummyData.length;y++){
+      for (let y=0;y<datagrades.length;y++){
+        console.log(datagrades[y],y,"assigning value")
         semArray[y](datagrades[y]);
       }
       ver=1;}
@@ -333,7 +336,7 @@ const addinpdata = async () => {
       // console.log(name,email)
       console.log(gradesData,"tryyyyy")
 
-      const res = await fetch("http://localhost:8003/register1", {
+      const res = await fetch("http://localhost:8080/register1", {
           method: "POST",
           headers: {
               "Content-Type": "application/json"
@@ -366,8 +369,8 @@ if (userId && setVar){
     }
     
 
-    const res2 = await fetch(`http://localhost:8003/updateuser/${email}`,{
-        method: "PATCH",
+    const res2 = await fetch(`http://localhost:8080/updateuser/${email}`,{
+        method: "PUT",
         headers: {
             "Content-Type": "application/json"
         },

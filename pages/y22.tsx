@@ -6,15 +6,38 @@ import { Navigation,  SPIstruct } from '../components/navigation';
 import {isMobile} from 'react-device-detect'
 import Table, { ColumnsType } from 'antd/lib/table';
 import {  useState } from 'react';
-import { useRecoilState } from 'recoil';
+// import {e } from 'recoil';
+import { DownOutlined } from '@ant-design/icons';
+import { Space } from 'antd';
+import { useRecoilState, useRecoilValue } from "recoil";
+import { Avatar, Image } from 'antd';
+import { recoilSessionState } from "../pkg/recoilDeclarations";
 
 import DataType from '../components/datatype';
 import { allSemsData, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data } from '../components/recoilDeclarations';
 import { BranchesSelect }  from '../components/branchesAndSemesters';
-
+const items = [
+  {
+    label: (
+      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+        1st menu item
+      </a>
+    ),
+    key: '0',
+  },
+  {
+    label: (
+      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+        2nd menu item
+      </a>
+    ),
+    key: '1',
+  },
+]
 
 const Home: NextPage = () => {
-
+  const sessiondata=useRecoilValue(recoilSessionState);
+  const userImage=`https://images-students-iitk.sgp1.digitaloceanspaces.com/images-students-iitk/${sessiondata?.user.rollno}.jpg`
   const handleClick1 = () => {
     const element1 = document.getElementById("spi-cpi");
     element1?.scrollIntoView({behavior: 'smooth'});
@@ -296,6 +319,17 @@ const columns: ColumnsType<SPIstruct> = [
           handleClick2()
         }}]}
       />
+      <div>{(sessiondata?.user.id) &&
+      
+      <Dropdown menu={{ items,}}> <a onClick={(e) => e.preventDefault()}> <Space>
+        <Avatar src={<Image src={userImage} style={{ width: 32 }} />} />
+        <DownOutlined /></Space>
+    </a>
+  </Dropdown>}
+      {(!sessiondata?.user.id) &&
+      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px",position:"fixed",right:"30px"}}  href='./verify'>Login</Button>}
+      
+      </div>
 
     </Header>
     <div>
