@@ -6,22 +6,32 @@ import {isMobile} from 'react-device-detect'
 import Table, { ColumnsType } from 'antd/lib/table';
 import {  useState } from 'react';
 // import { useRecoilState } from 'recoil';
-import { Route } from 'react-router';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import { styled, useTheme } from '@mui/material/styles';
+
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+// import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+
+import ListItemText from '@mui/material/ListItemText';
+import MenuIcon from '@mui/icons-material/Menu';
+const drawerWidth = 240;
+
+import Link from "next/link";
 import Component from './verify';
 import DataType from '../components/datatype';
 import React from "react";
-import { ory } from "../pkg/open-source";
-import Redirect from "@anciitk/kratos-verify-session";
 import "@anciitk/kratos-verify-session/dist/index.css";
-import { useRouter } from "next/router";
-import { xenon } from "../pkg/xenon";
-import { useContext } from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, Space } from 'antd';
 import { useRecoilState, useRecoilValue } from "recoil";
-import { Avatar, Image } from 'antd';
+import { Avatar} from 'antd';
 import { recoilSessionState } from "../pkg/recoilDeclarations";
-
+import styles from "../styles/SignupStyles.module.css";
+import { Popover } from 'antd';
 import { allSemsData, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data } from '../components/recoilDeclarations';
 // import { useRouter } from 'next/router'
 // import { NextResponse } from 'next/server'
@@ -31,25 +41,9 @@ import {
   redirect as DomRedirect,
   BrowserRouter,
 } from "react-router-dom";
-const items = [
-  {
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-        1st menu item
-      </a>
-    ),
-    key: '0',
-  },
-  {
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-        2nd menu item
-      </a>
-    ),
-    key: '1',
-  },
-]
+
 const Home: NextPage = () => {
+  
   // const router = useRouter();
   //       const [session, setSession] = useRecoilState(recoilSessionState);
   //       const { next: next } = router.query;
@@ -58,45 +52,34 @@ const Home: NextPage = () => {
   const sessiondata=useRecoilValue(recoilSessionState);
   
   console.log(sessiondata?.user.id);
+  const [session] = useRecoilState(recoilSessionState);
 
   // console.log("ndsvhdhvvvvvv");
   // console.log(session)
-  const dummyData=[[{key: 0, course: 'MTH101A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 1, course: 'PHY101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 2, course: 'PHY102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 3, course: 'LIF101A', grade: 'C', credits: 6, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 4, course: 'ENG124A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 5, course: 'TA101A', grade: 'C', credits: 9, credits_received: 6.6,is_repeated:false,is_sx:false}],
-                    [{key: 6, course: 'MTH102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 7, course: 'PHY103A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 8, course: 'ESC101A', grade: 'C', credits: 14, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 9, course: 'CHM102A', grade: 'C', credits: 8, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 10, course: 'CHM101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false}]];
-  const addinpdata = async (e:any) => {
-    // e.preventDefault();
+  const logoutUrl = session?.logoutUrl;
 
-    
-  
-    const { name, email, work, add, mobile, desc, age } = {name:"saksham",email:"bsvc@gmail.com",
-           work:"xnbc",add:"sf",mobile:845678923,desc:"yjsd",age:12};
-        console.log(name,email)
-
-        const res = await fetch("http://localhost:8003/register1", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name, email, work, add, mobile, desc, age,dummyData
-            })
-        });
-
-        const data = await res.json();
-        console.log(data);
-
-
-    // }
-}
+  const content = (
+    <div>
+      <Button style={{width:"100%", borderColor: "#ffffff", textAlign:"left"}}>
+        <Link href="./settings"><p className={styles.logoutMenuItem}>Settings</p></Link>
+      </Button>
+      <Button style={{width:"100%", borderColor: "#ffffff", textAlign:"left"}}>
+        <Link href={`${logoutUrl}`}><p className={styles.logoutMenuItem}>Logout</p></Link>
+      </Button>
+    </div>
+  );
+  // const dummyData=[[{key: 0, course: 'MTH101A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+  //                   {key: 1, course: 'PHY101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false},
+  //                   {key: 2, course: 'PHY102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+  //                   {key: 3, course: 'LIF101A', grade: 'C', credits: 6, credits_received: 6.6,is_repeated:false,is_sx:false},
+  //                   {key: 4, course: 'ENG124A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+  //                   {key: 5, course: 'TA101A', grade: 'C', credits: 9, credits_received: 6.6,is_repeated:false,is_sx:false}],
+  //                   [{key: 6, course: 'MTH102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+  //                   {key: 7, course: 'PHY103A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+  //                   {key: 8, course: 'ESC101A', grade: 'C', credits: 14, credits_received: 6.6,is_repeated:false,is_sx:false},
+  //                   {key: 9, course: 'CHM102A', grade: 'C', credits: 8, credits_received: 6.6,is_repeated:false,is_sx:false},
+  //                   {key: 10, course: 'CHM101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false}]];
+ 
         
   
   const handleClick1 = () => {
@@ -116,11 +99,9 @@ const Home: NextPage = () => {
     element2?.scrollIntoView({behavior: 'smooth'});
   };
   // console.log(Sem1Data,"sem1data");
-
+  const theme = useTheme();
   const [semData, setSemData] = useRecoilState(allSemsData)
-  if (dummyData){
-    // semData=dummyData
-  }
+  
   // const [trial, setTrial] = useState<DataType[][]>()
     const [status, setStatus] = useState("Normal");
     const [showStat, setShowStat] = useState(false)
@@ -199,6 +180,15 @@ const Home: NextPage = () => {
   //   }
     
   // }
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
     const getStats = (semData:DataType[][]) => {  
       
@@ -357,11 +347,79 @@ const columns: ColumnsType<SPIstruct> = [
         setShowStat2(true)
         // console.log("totCreds:", totCreds)
     }
+    const items = [
+      {
+        label: (
+          <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+            1st menu item
+          </a>
+        ),
+        key: '0',
+      },
+      {
+        label: (
+          <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+            2nd menu item
+          </a>
+        ),
+        key: '1',
+      },
+    ]
 
     return (
       <div style={{display:'flex',justifyContent:'center', alignItems:'center'}}>
         <Layout>
     <Header style={{ display:"flex", position: 'fixed', zIndex: 1, top:0, right:0, left:0, boxShadow:"0px 10px 5px lightblue" }}>
+    {isMobile && 
+      <div><Button onClick={handleDrawerOpen} style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px",marginRight:"15px"}}><MenuIcon/></Button>
+      <Drawer
+        sx={{
+          width: 0,
+          flexShrink: 0,
+          zIndex: 10000,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={open}
+      >
+        <>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </>
+        <Divider />
+        <List>
+          <ListItem key="Cpi" >
+            <ListItemButton onClick={() => {
+          tempFunc()
+          getSPI()
+          handleClick1()
+        }}> 
+              <ListItemText primary="Get Spi/Cpi" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key="AP" >
+            <ListItemButton onClick={() => {
+          tempFunc()
+          getStats(semData)
+          handleClick2()
+        }}> 
+              <ListItemText primary="Find Status" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key="y22" >
+            <ListItemButton href='./y22' > 
+              <ListItemText primary="Y22" />
+            </ListItemButton>
+          </ListItem>
+          
+        </List>
+        
+      </Drawer> </div>}
       <div className="logo" style={{marginRight:"30px",
       paddingLeft:"15px",
       paddingRight:"15px",
@@ -379,7 +437,8 @@ const columns: ColumnsType<SPIstruct> = [
         <div style={{color:"whitesmoke", paddingLeft:10, paddingRight:30, fontSize:30, minWidth: 500}}> Academics and Career Council </div>    
       
       }
-      <Menu
+      
+      {!isMobile && <><Menu
         style={{minWidth:"250px"}}
         theme="dark"
         mode="horizontal"
@@ -395,14 +454,22 @@ const columns: ColumnsType<SPIstruct> = [
         }}
       ]}
       />
-      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}} href='./y22'>For Y22</Button>
+      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}} href='./y22'>For Y22</Button></>}
+      {/* <Avatar src={<Image src={userImage} style={{ width: 32 }} />} /> */}
       <div>{(sessiondata?.user.id) &&
-      
-      <Dropdown menu={{ items,}}> <a onClick={(e) => e.preventDefault()}> <Space>
-        <Avatar src={<Image src={userImage} style={{ width: 32 }} />} />
-        <DownOutlined /></Space>
-    </a>
-  </Dropdown>}
+      <Popover placement={"bottomRight"} content={content} title="My Profile" trigger="click">
+      <Avatar
+        size={50}
+        src={userImage}
+        style={{
+          position: "absolute",
+          right: 20,
+          top: 20,
+        }}
+      >    
+        
+      </Avatar>
+      </Popover>}
       {(!sessiondata?.user.id) &&
       <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px",position:"fixed",right:"30px"}}  href='./verify'>Login</Button>}
       

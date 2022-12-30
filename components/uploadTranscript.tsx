@@ -11,17 +11,17 @@ import { options } from './courseOptions';
 import { jsonOfCourseCredits } from './courseCredits';
 import { useRecoilState, useRecoilValue } from "recoil";
 import { recoilSessionState } from "../pkg/recoilDeclarations";
-let dummyData=[[{key: 0, course: 'MTH101A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 1, course: 'PHY101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 2, course: 'PHY102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 3, course: 'LIF101A', grade: 'C', credits: 6, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 4, course: 'ENG124A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 5, course: 'TA101A', grade: 'C', credits: 9, credits_received: 6.6,is_repeated:false,is_sx:false}],
-                    [{key: 6, course: 'MTH102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 7, course: 'PHY103A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 8, course: 'ESC101A', grade: 'C', credits: 14, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 9, course: 'CHM102A', grade: 'C', credits: 8, credits_received: 6.6,is_repeated:false,is_sx:false},
-                    {key: 10, course: 'CHM101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false}]];
+// let dummyData=[[{key: 0, course: 'MTH101A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+//                     {key: 1, course: 'PHY101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false},
+//                     {key: 2, course: 'PHY102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+//                     {key: 3, course: 'LIF101A', grade: 'C', credits: 6, credits_received: 6.6,is_repeated:false,is_sx:false},
+//                     {key: 4, course: 'ENG124A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+//                     {key: 5, course: 'TA101A', grade: 'C', credits: 9, credits_received: 6.6,is_repeated:false,is_sx:false}],
+//                     [{key: 6, course: 'MTH102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+//                     {key: 7, course: 'PHY103A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
+//                     {key: 8, course: 'ESC101A', grade: 'C', credits: 14, credits_received: 6.6,is_repeated:false,is_sx:false},
+//                     {key: 9, course: 'CHM102A', grade: 'C', credits: 8, credits_received: 6.6,is_repeated:false,is_sx:false},
+//                     {key: 10, course: 'CHM101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false}]];
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
 // const [sessiondata, _]=useRecoilState(recoilSessionState);
 let setVar=1;
@@ -266,7 +266,7 @@ if (sessiondata?.user.id){
     if (data){
 
        datagrades=data.data.gradesData;
-      dummyData=data.gradesData;
+      // dummyData=data.gradesData;
       console.log(datagrades)
       if (count<datagrades.length){
         setCount(datagrades.length);
@@ -282,7 +282,7 @@ if (sessiondata?.user.id){
       }
       ver=1;}
       userDataExist=1;
-      console.log(dummyData,data.gradesData,"gradesdatatea")
+      console.log(data.gradesData,"gradesdatatea")
     }
     
   
@@ -297,7 +297,7 @@ if (sessiondata?.user.id){
     }
   }
   const [count2, setCount2] = useState(0);
-  console.log(dummyData,"dummy teat")
+  // console.log(dummyData,"dummy teat")
   // if (count<dummyData.length){
   //   setCount(dummyData.length);
   // }
@@ -431,11 +431,6 @@ if (userId && setVar){
         is_sx: false
       }
       newData.push(temp)
-      // newData[ind].course = sem[ind].course
-      // newData[ind].credits = sem[ind].credits
-      // newData[ind].credits_received = sem[ind].credits_received
-      // newData[ind].grade = sem[ind].grade
-      // newData[ind].is_repeated = sem[ind].is_repeated
       if(newData[ind].key === key) {
         if(newData[ind].is_repeated === true) {
           newData[ind].is_repeated = false

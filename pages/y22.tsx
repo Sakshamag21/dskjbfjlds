@@ -6,13 +6,35 @@ import { Navigation,  SPIstruct } from '../components/navigation';
 import {isMobile} from 'react-device-detect'
 import Table, { ColumnsType } from 'antd/lib/table';
 import {  useState } from 'react';
+import Link from "next/link";
+import Drawer from '@mui/material/Drawer';
+// import { styled, useTheme } from '@mui/material/styles';
+
+import List from '@mui/material/List';
+import { styled, useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+// import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import MenuIcon from '@mui/icons-material/Menu';
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+const drawerWidth = 240;
 // import {e } from 'recoil';
 import { DownOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Avatar, Image } from 'antd';
 import { recoilSessionState } from "../pkg/recoilDeclarations";
-
+import styles from "../styles/SignupStyles.module.css";
+import { Popover } from 'antd';
 import DataType from '../components/datatype';
 import { allSemsData, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data } from '../components/recoilDeclarations';
 import { BranchesSelect }  from '../components/branchesAndSemesters';
@@ -35,7 +57,24 @@ const items = [
   },
 ]
 
+
+
 const Home: NextPage = () => {
+  const [session] = useRecoilState(recoilSessionState);
+
+  // console.log("ndsvhdhvvvvvv");
+  // console.log(session)
+  const logoutUrl = session?.logoutUrl;
+  const content = (
+    <div>
+      <Button style={{width:"100%", borderColor: "#ffffff", textAlign:"left"}}>
+        <Link href="./settings"><p className={styles.logoutMenuItem}>Settings</p></Link>
+      </Button>
+      <Button style={{width:"100%", borderColor: "#ffffff", textAlign:"left"}}>
+        <Link href={`${logoutUrl}`}><p className={styles.logoutMenuItem}>Logout</p></Link>
+      </Button>
+    </div>
+  );
   const sessiondata=useRecoilValue(recoilSessionState);
   const userImage=`https://images-students-iitk.sgp1.digitaloceanspaces.com/images-students-iitk/${sessiondata?.user.rollno}.jpg`
   const handleClick1 = () => {
@@ -46,6 +85,7 @@ const Home: NextPage = () => {
     const element2 = document.getElementById("acad-status");
     element2?.scrollIntoView({behavior: 'smooth'});
   };
+  const theme = useTheme();
 
   const [semData, setSemData] = useRecoilState(allSemsData)
   // const [trial, setTrial] = useState<DataType[][]>()
@@ -168,7 +208,15 @@ const Home: NextPage = () => {
     const [results, setResults] = useState<SPIstruct[]>([])
     const [cpi, setCpi] = useState(0)
     const [showStat2, setShowStat2] = useState(false)
+    const [open, setOpen] =useState(false);
 
+    const handleDrawerOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleDrawerClose = () => {
+      setOpen(false);
+    };
     
 const columns: ColumnsType<SPIstruct> = [
     {
@@ -288,7 +336,56 @@ const columns: ColumnsType<SPIstruct> = [
       <div style={{display:'flex',justifyContent:'center', alignItems:'center'}}>
         <Layout>
     <Header style={{ display:"flex", position: 'fixed', zIndex: 1, width: '100%', top:0, right:0, left:0, boxShadow:"0px 10px 5px lightblue" }}>
-      <div className="logo" style={{marginRight:"30px",
+    {isMobile && 
+      <div><Button onClick={handleDrawerOpen} style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px",marginRight:"15px"}}><MenuIcon/></Button>
+      <Drawer
+        sx={{
+          width: 0,
+          flexShrink: 0,
+          zIndex: 10000,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={open}
+      >
+        <>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </>
+        <Divider />
+        <List>
+          <ListItem key="Cpi" >
+            <ListItemButton onClick={() => {
+          tempFunc()
+          getSPI()
+          handleClick1()
+        }}> 
+              <ListItemText primary="Get Spi/Cpi" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key="AP" >
+            <ListItemButton onClick={() => {
+          tempFunc()
+          getStats(semData)
+          handleClick2()
+        }}> 
+              <ListItemText primary="Find Status" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key="y22" >
+            <ListItemButton href='./' > 
+              <ListItemText primary="Non Y22" />
+            </ListItemButton>
+          </ListItem>
+          
+        </List>
+        
+      </Drawer> </div>}<div className="logo" style={{marginRight:"30px",
       paddingLeft:"15px",
       paddingRight:"15px",
       backgroundColor:"whitesmoke",
@@ -305,7 +402,7 @@ const columns: ColumnsType<SPIstruct> = [
         <div style={{color:"whitesmoke", paddingLeft:10, paddingRight:30, fontSize:30, minWidth: 500}}> Academics and Career Council </div>    
       
       }
-      <Menu
+      {!isMobile && <Menu
         theme="dark"
         mode="horizontal"
         items={[{key:"SPI", label:"Get SPI / CPI", onClick:() => {
@@ -318,14 +415,22 @@ const columns: ColumnsType<SPIstruct> = [
           getStats(semData)
           handleClick2()
         }}]}
-      />
+      />}
       <div>{(sessiondata?.user.id) &&
       
-      <Dropdown menu={{ items,}}> <a onClick={(e) => e.preventDefault()}> <Space>
-        <Avatar src={<Image src={userImage} style={{ width: 32 }} />} />
-        <DownOutlined /></Space>
-    </a>
-  </Dropdown>}
+      <Popover placement={"bottomRight"} content={content} title="My Profile" trigger="click">
+      <Avatar
+        size={50}
+        src={userImage}
+        style={{
+          position: "absolute",
+          right: 20,
+          top: 20,
+        }}
+      >    
+        
+      </Avatar>
+      </Popover>}
       {(!sessiondata?.user.id) &&
       <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px",position:"fixed",right:"30px"}}  href='./verify'>Login</Button>}
       
