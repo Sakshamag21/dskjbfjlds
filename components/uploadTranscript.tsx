@@ -11,20 +11,9 @@ import { options } from './courseOptions';
 import { jsonOfCourseCredits } from './courseCredits';
 import { useRecoilState, useRecoilValue } from "recoil";
 import { recoilSessionState } from "../pkg/recoilDeclarations";
-// let dummyData=[[{key: 0, course: 'MTH101A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-//                     {key: 1, course: 'PHY101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false},
-//                     {key: 2, course: 'PHY102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-//                     {key: 3, course: 'LIF101A', grade: 'C', credits: 6, credits_received: 6.6,is_repeated:false,is_sx:false},
-//                     {key: 4, course: 'ENG124A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-//                     {key: 5, course: 'TA101A', grade: 'C', credits: 9, credits_received: 6.6,is_repeated:false,is_sx:false}],
-//                     [{key: 6, course: 'MTH102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-//                     {key: 7, course: 'PHY103A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-//                     {key: 8, course: 'ESC101A', grade: 'C', credits: 14, credits_received: 6.6,is_repeated:false,is_sx:false},
-//                     {key: 9, course: 'CHM102A', grade: 'C', credits: 8, credits_received: 6.6,is_repeated:false,is_sx:false},
-//                     {key: 10, course: 'CHM101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false}]];
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
 // const [sessiondata, _]=useRecoilState(recoilSessionState);
-let setVar=1;
+let setVar=4;
 let userDataExist=0;
   
 
@@ -240,8 +229,8 @@ export const App: React.FC = () => {
   const [sem15, setSem15] = useRecoilState(Sem15Data)
   const [sem16, setSem16] = useRecoilState(Sem16Data)
   var datagrades  
-  const [sessiondata, _]=useRecoilState(recoilSessionState);
-  console.log(sessiondata?.user.id,"user.id");
+  const [sessiondata, setSessiondata]=useRecoilState(recoilSessionState);
+  console.log(sessiondata,"user.id upl");
   console.log(sessiondata?.user.email,"user.email");
 let userId="45645464676gchghc";
 if (sessiondata?.user.id){
@@ -252,7 +241,7 @@ if (sessiondata?.user.id){
     let email="";
     if (sessiondata?.user.email){
       email=sessiondata?.user.email
-    }
+    
     
     const res = await fetch(`http://localhost:8080/getuser/${email}`, {
         method: "GET",
@@ -295,7 +284,7 @@ if (sessiondata?.user.id){
         console.log("get data");
   
     }
-  }
+  }}
   const [count2, setCount2] = useState(0);
   // console.log(dummyData,"dummy teat")
   // if (count<dummyData.length){
@@ -349,14 +338,16 @@ const addinpdata = async () => {
       const data = await res.json();
       console.log(data);
 
-
   // }
 }
 
-
-if (userId && setVar){
+console.log(userId,setVar,"setVra")
+if (userId && setVar && setVar!==2){
   getdata();
-  setVar=0;
+  console.log(userId,setVar,"setVra")
+  setVar=setVar-1;
+}else{
+  setVar=setVar-1
 }
   const updateData = async()=>{
     // e.preventDefault();
@@ -582,59 +573,6 @@ if (userId && setVar){
     };
   });
   
-    // const [isLoading, setIsLoading] = React.useState(false);
-    // const inputFileRef = React.useRef<HTMLInputElement | null>(null);
-
-    // const handleOnClick = async (e: React.MouseEvent<HTMLInputElement>) => {
-
-    //     e.preventDefault();
-
-    //     if (!inputFileRef.current?.files?.length) {
-    //         alert('Please, select file you want to upload');
-    //         return;
-    //     }
-
-    //     setIsLoading(true);
-
-    //     const formData = new FormData();
-    //     Object.values(inputFileRef.current.files).forEach(file => {
-    //         formData.append('file', file);
-    //         
-    //     })
-    //     axios.post('http://127.0.0.1:5000/uploader', formData, {
-    //       headers: {
-    //         'Content-Type': 'multipart/form-data'
-    //       }
-    //     })
-    //     .then(function (response) {
-    //       let data = response.data
-    //       
-    //         let index = 0;
-    //         for (index = 0; index < data['sems'].length; index++) {
-    //         if( data['sems'][index]['sem_num'] === 1) {setSem1(data['sems'][index]['courses']); setCount(1)}
-    //         else if( data['sems'][index]['sem_num'] === 2) {setSem2(data['sems'][index]['courses']); setCount(2)}
-    //         else if(data['sems'][index]['sem_num'] === 3) {setSem3(data['sems'][index]['courses']); setCount(3)}
-    //         else if(data['sems'][index]['sem_num'] === 4) {setSem4(data['sems'][index]['courses']); setCount(4)}
-    //         else if(data['sems'][index]['sem_num'] === 5) {setSem5(data['sems'][index]['courses']); setCount(5)}
-    //         else if(data['sems'][index]['sem_num'] === 6) {setSem6(data['sems'][index]['courses']); setCount(6)}
-    //         else if(data['sems'][index]['sem_num'] === 7) {setSem7(data['sems'][index]['courses']); setCount(7)}
-    //         else if(data['sems'][index]['sem_num'] === 8) {setSem8(data['sems'][index]['courses']); setCount(8)}
-    //         else if(data['sems'][index]['sem_num'] === 9) {setSem9(data['sems'][index]['courses']); setCount(9)}
-    //         else if( data['sems'][index]['sem_num'] === 10) {setSem10(data['sems'][index]['courses']); setCount(10)}
-    //         else if( data['sems'][index]['sem_num'] === 11) {setSem11(data['sems'][index]['courses']); setCount(11)}
-    //         else if( data['sems'][index]['sem_num'] === 12) {setSem12(data['sems'][index]['courses']); setCount(12)}
-    //         else if( data['sems'][index]['sem_num'] === 13) {setSem13(data['sems'][index]['courses']); setCount(13)}
-    //         else if( data['sems'][index]['sem_num'] === 14) {setSem14(data['sems'][index]['courses']); setCount(14)}
-    //         else if( data['sems'][index]['sem_num'] === 15) {setSem15(data['sems'][index]['courses']); setCount(15)}
-    //         else if( data['sems'][index]['sem_num'] === 16) {setSem16(data['sems'][index]['courses']); setCount(16)}
-    //     }
-    //     })
-    //     .catch(function (error) {
-    //       
-    //     });
-    //     addAllData()
-    //     setIsLoading(false);
-    // };
     
   
   return (
@@ -643,18 +581,7 @@ if (userId && setVar){
 
 
 
-            {/* <form style={{display:'flex',justifyContent:'center', alignItems:'center'}}>
-                <div >
-                    <input 
-                    type="file" name="myfile" ref={inputFileRef} />
-                    
-                </div>
-                <div >
-                    <input type="submit" value="Upload" disabled={isLoading} onClick={handleOnClick} />
-                    {isLoading && ` Wait, please...`}
-                </div>
-            </form> */}
-      <div>
+          <div>
         {
             (count > 0) && 
             <div>

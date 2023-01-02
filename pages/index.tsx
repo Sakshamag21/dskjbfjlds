@@ -4,12 +4,13 @@ import type { NextPage } from 'next'
 import { Navigation,  SPIstruct } from '../components/navigation';
 import {isMobile} from 'react-device-detect'
 import Table, { ColumnsType } from 'antd/lib/table';
+// import { HashRouter as Router, Route } from 'react-router-dom'
 import {  useState } from 'react';
 // import { useRecoilState } from 'recoil';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import { styled, useTheme } from '@mui/material/styles';
-
+// import Component from './verify';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
@@ -23,7 +24,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 const drawerWidth = 240;
 
 import Link from "next/link";
-import Component from './verify';
+// import Component from './verify';
 import DataType from '../components/datatype';
 import React from "react";
 import "@anciitk/kratos-verify-session/dist/index.css";
@@ -32,17 +33,22 @@ import { Avatar} from 'antd';
 import { recoilSessionState } from "../pkg/recoilDeclarations";
 import styles from "../styles/SignupStyles.module.css";
 import { Popover } from 'antd';
+import { xenon } from "../pkg/xenon";
+import Redirect from "@anciitk/kratos-verify-session";
+import "@anciitk/kratos-verify-session/dist/index.css";
+import { ory } from "../pkg/open-source";
 import { allSemsData, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data } from '../components/recoilDeclarations';
-// import { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 // import { NextResponse } from 'next/server'
-import {
+// import {
   
-  Routes,
-  redirect as DomRedirect,
-  BrowserRouter,
-} from "react-router-dom";
+//   Routes,
+//   redirect as DomRedirect,
+//   BrowserRouter,
+// } from "react-router-dom";
 
-const Home: NextPage = () => {
+const Home1: NextPage = () => {
+  
   
   // const router = useRouter();
   //       const [session, setSession] = useRecoilState(recoilSessionState);
@@ -51,8 +57,9 @@ const Home: NextPage = () => {
   // console.log("hzcghz");
   const sessiondata=useRecoilValue(recoilSessionState);
   
-  console.log(sessiondata?.user.id);
+  
   const [session] = useRecoilState(recoilSessionState);
+  console.log(sessiondata?.user.id,"idex",session);
 
   // console.log("ndsvhdhvvvvvv");
   // console.log(session)
@@ -68,17 +75,6 @@ const Home: NextPage = () => {
       </Button>
     </div>
   );
-  // const dummyData=[[{key: 0, course: 'MTH101A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-  //                   {key: 1, course: 'PHY101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false},
-  //                   {key: 2, course: 'PHY102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-  //                   {key: 3, course: 'LIF101A', grade: 'C', credits: 6, credits_received: 6.6,is_repeated:false,is_sx:false},
-  //                   {key: 4, course: 'ENG124A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-  //                   {key: 5, course: 'TA101A', grade: 'C', credits: 9, credits_received: 6.6,is_repeated:false,is_sx:false}],
-  //                   [{key: 6, course: 'MTH102A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-  //                   {key: 7, course: 'PHY103A', grade: 'C', credits: 11, credits_received: 6.6,is_repeated:false,is_sx:false},
-  //                   {key: 8, course: 'ESC101A', grade: 'C', credits: 14, credits_received: 6.6,is_repeated:false,is_sx:false},
-  //                   {key: 9, course: 'CHM102A', grade: 'C', credits: 8, credits_received: 6.6,is_repeated:false,is_sx:false},
-  //                   {key: 10, course: 'CHM101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false}]];
  
         
   
@@ -86,13 +82,7 @@ const Home: NextPage = () => {
     const element1 = document.getElementById("spi-cpi");
     element1?.scrollIntoView({behavior: 'smooth'});
   };
-  const portPage=()=>{
-    
-        
-        console.log("yes");
-        return(<Component/>)
-    
-  }
+  
   const userImage=`https://images-students-iitk.sgp1.digitaloceanspaces.com/images-students-iitk/${sessiondata?.user.rollno}.jpg`
   const handleClick2 = () => {
     const element2 = document.getElementById("acad-status");
@@ -347,31 +337,16 @@ const columns: ColumnsType<SPIstruct> = [
         setShowStat2(true)
         // console.log("totCreds:", totCreds)
     }
-    const items = [
-      {
-        label: (
-          <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-            1st menu item
-          </a>
-        ),
-        key: '0',
-      },
-      {
-        label: (
-          <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-            2nd menu item
-          </a>
-        ),
-        key: '1',
-      },
-    ]
+    
 
     return (
+      
       <div style={{display:'flex',justifyContent:'center', alignItems:'center'}}>
         <Layout>
+        
     <Header style={{ display:"flex", position: 'fixed', zIndex: 1, top:0, right:0, left:0, boxShadow:"0px 10px 5px lightblue" }}>
-    {isMobile && 
-      <div><Button onClick={handleDrawerOpen} style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px",marginRight:"15px"}}><MenuIcon/></Button>
+     
+      {<div className={styles.mobile}><Button onClick={handleDrawerOpen} style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px",marginRight:"15px"}}><MenuIcon/></Button>
       <Drawer
         sx={{
           width: 0,
@@ -433,12 +408,12 @@ const columns: ColumnsType<SPIstruct> = [
                 />
                 </a>
                 </div>
-      {!isMobile && 
-        <div style={{color:"whitesmoke", paddingLeft:10, paddingRight:30, fontSize:30, minWidth: 500}}> Academics and Career Council </div>    
+      {
+        <div className={styles.nnonmobile} style={{color:"whitesmoke", paddingLeft:10, paddingRight:30, fontSize:30, minWidth: 500}}> Academics and Career Council </div>    
       
       }
       
-      {!isMobile && <><Menu
+      {<div className={styles.nonmobile}><Menu
         style={{minWidth:"250px"}}
         theme="dark"
         mode="horizontal"
@@ -453,8 +428,8 @@ const columns: ColumnsType<SPIstruct> = [
           handleClick2()
         }}
       ]}
-      />
-      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}} href='./y22'>For Y22</Button></>}
+      /></div>}
+      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}} href='./y22' className={styles.nonmobile}>For Y22</Button>
       {/* <Avatar src={<Image src={userImage} style={{ width: 32 }} />} /> */}
       <div>{(sessiondata?.user.id) &&
       <Popover placement={"bottomRight"} content={content} title="My Profile" trigger="click">
@@ -471,7 +446,7 @@ const columns: ColumnsType<SPIstruct> = [
       </Avatar>
       </Popover>}
       {(!sessiondata?.user.id) &&
-      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px",position:"fixed",right:"30px"}}  href='./verify'>Login</Button>}
+      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px",position:"fixed",right:"30px"}}  href="./verify">Login</Button>}
       
       </div>
       {/* <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}}  href='./verify'>Login</Button> */}
@@ -479,8 +454,8 @@ const columns: ColumnsType<SPIstruct> = [
     </Header>
     <div>
       {
-        !isMobile &&
-          <Content className="site-layout" style={{ paddingLeft: '20%', paddingRight: '20%', marginTop: 64, paddingTop:"20px" }}>
+        
+          <Content className={styles.nonmobile} style={{ paddingLeft: '20%', paddingRight: '20%', marginTop: 64, paddingTop:"20px" ,position:"absolute"}}>
             {/* <div  style={{ justifyContent:'center', alignItems:'center'}}> */}
             <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                 <p style={{fontSize: "30px",justifyContent:'center', alignItems:'center'}}>CPI/SPI/Status Calculator</p>
@@ -538,8 +513,8 @@ const columns: ColumnsType<SPIstruct> = [
     </div>
     <div>
       {
-        isMobile &&
-        <Content className="site-layout" style={{ marginTop: 64, paddingTop:"20px" }}>
+        
+        <Content className={styles.mobile} style={{ marginTop: 64, paddingTop:"20px" ,position:"absolute"}}>
           
           <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                 <p style={{fontSize: "30px",justifyContent:'center', alignItems:'center'}}>CPI/SPI/Status Calculator</p>
@@ -603,9 +578,9 @@ const columns: ColumnsType<SPIstruct> = [
   </Layout>
         
         </div>
-    )
+        )
 }
 
-export default Home
+export default Home1
 
 

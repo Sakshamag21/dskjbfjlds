@@ -5,3 +5,4 @@ export const recoilSessionState = atom<SessionState | undefined>({
   key: "session-state",
   default: undefined,
 });
+console.log(recoilSessionState)

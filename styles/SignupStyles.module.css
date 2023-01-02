@@ -4,3 +4,18 @@
   .logoutMenuItem:hover {
     color: #007df1;
   } 
+.mobile{
+  opacity: 0;
+}
+.nonmobile{
+  opacity: 1;
+}
+@media screen and (max-width:783px) {
+  .mobile{
+    opacity: 1;
+  }
+  .nonmobile{
+    opacity:0;
+  }
+  
+}
