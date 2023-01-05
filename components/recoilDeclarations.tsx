@@ -1,6 +1,11 @@
 import { atom } from "recoil";
 import DataType from "./datatype";
 
+export const loginStatus = atom<Boolean>({
+  key: "login",
+  default: false,
+})
+
 export const allSemsData = atom<DataType[][]>({
   key: "semall",
   default: [],

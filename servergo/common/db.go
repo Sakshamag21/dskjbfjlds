@@ -3,6 +3,7 @@ package common
 import (
 	"context"
 	"errors"
+	"fmt"
 	"os"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -23,6 +24,8 @@ func InitDB() error {
 	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI(uri))
 	if err != nil {
 		return err
+	} else {
+		fmt.Println("Successfully connected to Mongodb Instance")
 	}
 
 	db = client.Database("go_demo")

@@ -32,7 +32,7 @@ import { Avatar} from 'antd';
 import { recoilSessionState } from "../pkg/recoilDeclarations";
 import styles from "../styles/SignupStyles.module.css";
 import { Popover } from 'antd';
-import { allSemsData, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data } from '../components/recoilDeclarations';
+import { allSemsData, loginStatus, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data } from '../components/recoilDeclarations';
 // import { useRouter } from 'next/router'
 // import { NextResponse } from 'next/server'
 import {
@@ -41,8 +41,13 @@ import {
   redirect as DomRedirect,
   BrowserRouter,
 } from "react-router-dom";
+import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const [isLogIn, setIsLogIn] = useRecoilState(loginStatus)
+  
+  
   
   // const router = useRouter();
   //       const [session, setSession] = useRecoilState(recoilSessionState);
@@ -53,7 +58,12 @@ const Home: NextPage = () => {
   
   console.log(sessiondata?.user.id);
   const [session] = useRecoilState(recoilSessionState);
-
+  console.log(isLogIn)
+  if(isLogIn === true) {
+    if(session === undefined) {
+      router.push('./verify')
+    }
+  }
   // console.log("ndsvhdhvvvvvv");
   // console.log(session)
   const logoutUrl = session?.logoutUrl;
@@ -63,7 +73,7 @@ const Home: NextPage = () => {
       <Button style={{width:"100%", borderColor: "#ffffff", textAlign:"left"}}>
         <Link href="./settings"><p className={styles.logoutMenuItem}>Settings</p></Link>
       </Button>
-      <Button style={{width:"100%", borderColor: "#ffffff", textAlign:"left"}}>
+      <Button onClick={() => setIsLogIn(false)} style={{width:"100%", borderColor: "#ffffff", textAlign:"left"}}>
         <Link href={`${logoutUrl}`}><p className={styles.logoutMenuItem}>Logout</p></Link>
       </Button>
     </div>
@@ -471,7 +481,7 @@ const columns: ColumnsType<SPIstruct> = [
       </Avatar>
       </Popover>}
       {(!sessiondata?.user.id) &&
-      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px",position:"fixed",right:"30px"}}  href='./verify'>Login</Button>}
+      <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px",position:"fixed",right:"30px"}}  onClick={() => {setIsLogIn(true); router.push('./verify') }}>Login</Button>}
       
       </div>
       {/* <Button style={{backgroundColor: "#001529", color: "lightgray", marginTop: "15px"}}  href='./verify'>Login</Button> */}
