@@ -24,7 +24,7 @@ import { recoilSessionState } from "../pkg/recoilDeclarations";
 //                     {key: 10, course: 'CHM101A', grade: 'C', credits: 3, credits_received: 6.6,is_repeated:false,is_sx:false}]];
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
 // const [sessiondata, _]=useRecoilState(recoilSessionState);
-let setVar=1;
+let setVar=4;
 let userDataExist=0;
   
 
@@ -252,7 +252,7 @@ if (sessiondata?.user.id){
     let email="";
     if (sessiondata?.user.email){
       email=sessiondata?.user.email
-    }
+    
     
     const res = await fetch(`http://localhost:8080/getuser/${email}`, {
         method: "GET",
@@ -284,7 +284,7 @@ if (sessiondata?.user.id){
       userDataExist=1;
       console.log(data.gradesData,"gradesdatatea")
     }
-    
+  
   
   
     if (res.status === 422) {
@@ -295,7 +295,7 @@ if (sessiondata?.user.id){
         console.log("get data");
   
     }
-  }
+  }}
   const [count2, setCount2] = useState(0);
   // console.log(dummyData,"dummy teat")
   // if (count<dummyData.length){
@@ -307,7 +307,7 @@ if (sessiondata?.user.id){
 
   // setCount(dummyData.length);
   // setSem1(dummyData[0]);
-  const semArray=[setSem1,setSem2];
+  const semArray=[setSem1,setSem2,setSem3,setSem4,setSem5,setSem6,setSem7,setSem8,setSem9,setSem10,setSem11,setSem12,setSem13,setSem14,setSem15,setSem16];
   console.log("ver",ver);
   
   // if (ver==0){
@@ -328,7 +328,7 @@ const addinpdata = async () => {
   let email="";
     if (sessiondata?.user.email){
       email=sessiondata?.user.email
-    }
+    
 
   console.log(gradesData,"gradesData",typeof(gradesData))
   // const { name, email, work, add, mobile, desc, age } = {name:"saksham",email:"sakshamag2@gmail.com",
@@ -351,12 +351,19 @@ const addinpdata = async () => {
 
 
   // }
-}
+}else{
+  alert("You are not Logged In")
+}}
 
-
-if (userId && setVar){
+const [alreadyLoggedin,setalredayLoggedin]=useState(false);
+console.log(alreadyLoggedin,"already Logged in")
+if (userId && setVar && setVar!==2 && !alreadyLoggedin){
   getdata();
-  setVar=0;
+  setalredayLoggedin(true)
+  console.log(userId,setVar,"setVra")
+  setVar=setVar-1;
+}else{
+  setVar=setVar-1
 }
   const updateData = async()=>{
     // e.preventDefault();
@@ -514,11 +521,13 @@ if (userId && setVar){
     }
   ];
   
-  
+  const getrandom=()=>{
+    return Math.floor(Math.random()*1000000000000000000)
+  }
   const handleAdd = (setSem:any, sem:DataType[], sem_num:number) => {
     addAllData()
     const newData: DataType = {
-      key: count2,
+      key: getrandom(),
       course: ``,
       grade: '',
       credits: 0,
