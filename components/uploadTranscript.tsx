@@ -4,6 +4,7 @@ import type { FormInstance } from 'antd/es/form';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import 'antd/dist/antd.css';
 import DataType from './datatype';
+import styles from "../styles/SignupStyles.module.css";
 import { allSemsData, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data, semCount } from './recoilDeclarations';
 import { useParams } from 'react-router';
 import getCreditsReceived from './getCreditsReceived';
@@ -663,7 +664,7 @@ if (userId && setVar && setVar!==2 && !alreadyLoggedin){
                     {isLoading && ` Wait, please...`}
                 </div>
             </form> */}
-      <div>
+      <div className={styles.table}>
         {
             (count > 0) && 
             <div>
@@ -673,6 +674,7 @@ if (userId && setVar && setVar!==2 && !alreadyLoggedin){
       </Button>
       
       <Table
+        // size=''
         components={components}
         rowClassName={() => 'editable-row'}
         bordered
@@ -692,6 +694,7 @@ if (userId && setVar && setVar!==2 && !alreadyLoggedin){
       </Button>
       <Table
         components={components}
+        
         rowClassName={() => 'editable-row'}
         bordered
         dataSource={sem2}

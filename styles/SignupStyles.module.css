@@ -10,6 +10,25 @@ opacity: 0;
 .nonmobile{
 opacity: 1;
 }
+.bothmobile{
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-top: 20px;
+  margin-top: 64;
+}
+.table{
+  /* font-size: 9px; */
+}
+@media screen and (max-width:1111px) {
+  .bothmobile{
+    padding-left: 10%;
+    padding-right: 10%;
+  }}
+  @media screen and (max-width:883px) {
+    .bothmobile{
+      padding-left: 0%;
+      padding-right: 0%;
+    }}
 @media screen and (max-width:783px) {
 .mobile{
   opacity: 1;

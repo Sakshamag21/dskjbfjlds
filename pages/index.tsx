@@ -473,8 +473,8 @@ const columns: ColumnsType<SPIstruct> = [
         src={userImage}
         style={{
           position: "absolute",
-          right: 20,
-          top: 20,
+          right: 0,
+          top: 0,
         }}
       >    
         
@@ -489,7 +489,7 @@ const columns: ColumnsType<SPIstruct> = [
     </Header>
     <div>
       {
-          <Content className={styles.nonmobile} style={{ paddingLeft: '20%', paddingRight: '20%', marginTop: 64, paddingTop:"20px" ,position:"absolute"}}>
+          <Content className={styles.bothmobile} >
             {/* <div  style={{ justifyContent:'center', alignItems:'center'}}> */}
             <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                 <p style={{fontSize: "30px",justifyContent:'center', alignItems:'center'}}>CPI/SPI/Status Calculator</p>
@@ -545,10 +545,10 @@ const columns: ColumnsType<SPIstruct> = [
     </Content>
       }
     </div>
-    <div>
+    {/* <div>
       {
       
-        <Content className={styles.mobile} style={{ marginTop: 64, paddingTop:"20px" }}>
+        <Content className={styles.mobile} style={{paddingLeft: '20vw', paddingRight: '20vw',  marginTop: 64, paddingTop:"20px" }}>
           
           <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                 <p style={{fontSize: "30px",justifyContent:'center', alignItems:'center'}}>CPI/SPI/Status Calculator</p>
@@ -603,7 +603,7 @@ const columns: ColumnsType<SPIstruct> = [
           </div>
         </Content>
       }
-    </div>
+    </div> */}
     {/* <div style={{display:'flex',justifyContent:'center', alignItems:'center', paddingBottom:"50px"}}>
         <Button  style={{width:"150px"}} onClick={addinpdata}> Save </Button>
         </div> */}
