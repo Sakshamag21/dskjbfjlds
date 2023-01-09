@@ -24,7 +24,7 @@ const drawerWidth = 240;
 
 import Link from "next/link";
 import Component from './verify';
-import DataType from '../components/datatype';
+import DataType from '../components/typeDefinitions/datatype';
 import React from "react";
 import "@anciitk/kratos-verify-session/dist/index.css";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -32,7 +32,7 @@ import { Avatar} from 'antd';
 import { recoilSessionState } from "../pkg/recoilDeclarations";
 import styles from "../styles/SignupStyles.module.css";
 import { Popover } from 'antd';
-import { allSemsData, loginStatus, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data } from '../components/recoilDeclarations';
+import { allSemsData, loginStatus, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data } from '../components/typeDefinitions/recoilDeclarations';
 // import { useRouter } from 'next/router'
 // import { NextResponse } from 'next/server'
 import {

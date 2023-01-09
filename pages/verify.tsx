@@ -7,7 +7,7 @@ import { xenon } from "../pkg/xenon";
 import { useRecoilState } from "recoil";
 import { useContext } from "react";
 import { recoilSessionState } from "../pkg/recoilDeclarations";
-import { loginStatus } from "../components/recoilDeclarations";
+import { loginStatus } from "../components/typeDefinitions/recoilDeclarations";
 
 // const context= useContext();
 // const router = useRouter();

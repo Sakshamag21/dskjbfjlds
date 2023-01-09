@@ -35,9 +35,9 @@ import { Avatar, Image } from 'antd';
 import { recoilSessionState } from "../pkg/recoilDeclarations";
 import styles from "../styles/SignupStyles.module.css";
 import { Popover } from 'antd';
-import DataType from '../components/datatype';
-import { allSemsData, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data } from '../components/recoilDeclarations';
-import { BranchesSelect }  from '../components/branchesAndSemesters';
+import DataType from '../components/typeDefinitions/datatype';
+import { allSemsData, Sem10Data, Sem11Data, Sem12Data, Sem13Data, Sem14Data, Sem15Data, Sem16Data, Sem1Data, Sem2Data, Sem3Data, Sem4Data, Sem5Data, Sem6Data, Sem7Data, Sem8Data, Sem9Data } from '../components/typeDefinitions/recoilDeclarations';
+import { BranchesSelect }  from '../components/auxilliary_functions/branchesAndSemesters';
 const items = [
   {
     label: (

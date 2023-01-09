@@ -1,4 +1,4 @@
-import DataType from "./datatype";
+import DataType from "../typeDefinitions/datatype";
 
 export const group1sem1:DataType[] = [
     {course:"Enter your ELC course", credits: 9, grade:"", credits_received:0, is_repeated: false, key: 100, is_sx: false},
